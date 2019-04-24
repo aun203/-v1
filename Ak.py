@@ -61,7 +61,8 @@ settings = {
     "checkPost": False,
     "kickMention": False,
     "potoMention": True,
-    "delayMention": False,                                                                                "lang":"JP",
+    "delayMention": False,                                                                                
+    "lang":"JP",
     "Wc": False,
     "Lv": False,
     "Nk": False,
@@ -123,3 +124,95 @@ settings = {
         "Mozilla/5.0 (Windows NT 5.1; rv:2.0.1) Gecko/20100101 Firefox/5.0",
         "Mozilla/5.0 (Windows NT 5.0; WOW64; rv:5.0) Gecko/20100101 Firefox/5.0",
         "Mozilla/5.0 (Windows NT 5.0; rv:5.0) Gecko/20100101 Firefox/5.0"
+],
+    "mimic": {
+        "copy": False,
+        "status": False,
+        "target": {}
+    }
+}
+
+RfuProtect = {
+    "protect": False,
+    "cancelprotect": False,
+    "inviteprotect": False,
+    "linkprotect": False,
+    "Protectguest": False,
+    "Protectjoin": False,
+    "autoAdd": True,
+}
+
+RfuProtect = {
+    "protect": False,
+    "cancelprotect": False,
+    "inviteprotect": False,
+    "linkprotect": False,
+    "Protectguest": False,
+    "Protectjoin": False,
+    "autoAdd": True,
+}
+
+Setmain = {
+    "foto": {},
+}
+
+read = {
+    "readPoint": {},
+    "readMember": {},
+    "readTime": {},
+    "setTime":{},
+    "ROM": {}
+}
+
+myProfile = {
+        "displayName": "",
+        "statusMessage": "",
+        "pictureStatus": ""
+}
+
+mimic = {
+    "copy":False,
+    "copy2":False,
+    "status":False,
+    "target":{}
+    }
+
+RfuCctv={
+    "cyduk":{},
+    "point":{},
+    "sidermem":{}
+}
+
+rfuSet = {
+    'setTime':{},
+    'ricoinvite':{},
+    'winvite':{},
+    }
+
+user1 = lineMID
+user2 = ""
+
+setTime = {}
+setTime = rfuSet['setTime']
+
+contact = line.getProfile()
+backup = line.getProfile()
+backup.dispalyName = contact.displayName
+backup.statusMessage = contact.statusMessage
+backup.pictureStatus = contact.pictureStatus
+
+mulai = time.time()
+dangerMessage = ["cleanse","group cleansed.","mulai",".winebot",".kickall","mayhem","kick on","Kick","!kickall","nuke","บิน","Kick","กระเด็น","หวด","เซลกากจัง","เตะ",".","ปลิว"]
+fukgerMessage = ["ควย","หี","แตด","เย็ดแม่","เย็ดเข้","ค.วย","สัส","เหี้ย","ไอ้เหี้ย","พ่อมึงตาย","ไอ้เลว","ระยำ","ชาติหมา","หน้าหี","เซลกาก","พ่องตาย","ส้นตีน","แม่มึงอ่ะ","แม่มึงดิ","พ่อมึงดิ"]
+
+try:
+    with open("Log_data.json","r",encoding="utf_8_sig") as f:
+        msg_dict = json.loads(f.read())
+except:
+    print("Couldn't read Log data")
+
+myProfile["displayName"] = lineProfile.displayName
+myProfile["statusMessage"] = lineProfile.statusMessage
+myProfile["pictureStatus"] = lineProfile.pictureStatus
+#==============================================================================#
+#==============================================================================#
