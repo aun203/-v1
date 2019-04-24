@@ -216,3 +216,450 @@ myProfile["statusMessage"] = lineProfile.statusMessage
 myProfile["pictureStatus"] = lineProfile.pictureStatus
 #==============================================================================#
 #==============================================================================#
+def Rapid1Say(mtosay):
+    line.sendText(Rapid1To,mtosay)
+
+def summon(to, nama):
+    aa = ""
+    bb = ""
+    strt = int(14)
+    akh = int(14)
+    nm = nama
+    for mm in nm:
+      akh = akh + 2
+      aa += """{"S":"""+json.dumps(str(strt))+""","E":"""+json.dumps(str(akh))+""","M":"""+json.dumps$
+      strt = strt + 6
+      akh = akh + 4
+      bb += "\xe2\x95\xa0 @x \n"
+    aa = (aa[:int(len(aa)-1)])
+    msg = Message()
+    msg.to = to
+    msg.text = "\xe2\x95\x94\xe2\x95\x90\xe2\x95\x90\xe2\x95\x90\xe2\x95\x90\xe2\x95\x90\xe2\x95\x90\$
+    msg.contentMetadata ={'MENTION':'{"MENTIONEES":['+aa+']}','EMTVER':'4'}
+    print ("TAG ALL")
+    try:
+       line.sendMessage(msg)
+    except Exception as error:
+       print(error)
+
+def restartBot():
+    print ("RESTART SERVER")
+    time.sleep(3)
+    python = sys.executable
+    os.execl(python, python, *sys.argv)
+
+def logError(text):
+    line.log("[ แจ้งเตือน ] " + str(text))
+    time_ = datetime.now()
+    with open("errorLog.txt","a") as error:
+        error.write("\n[%s] %s" % (str(time), text))
+
+try:
+        arrData = ""
+        text = "%s " %(str(firstmessage))
+        arr = []
+        mention = "@x "
+        slen = str(len(text))
+        elen = str(len(text) + len(mention) - 1)
+        arrData = {'S':slen, 'E':elen, 'M':mid}
+        arr.append(arrData)
+        text += mention + str(lastmessage)
+        line.sendMessage(to, text, {'MENTION': str('{"MENTIONEES":' + json.dumps(arr) + '}')}, 0)
+    except Exception as error:
+        logError(error)
+        line.sendMessage(to, "[ INFO ] Error :\n" + str(error))
+
+def sendMessage(to, text, contentMetadata={}, contentType=0):
+    mes = Message()
+    mes.to, mes.from_ = to, profile.mid
+    mes.text = text
+    mes.contentType, mes.contentMetadata = contentType, contentMetadata
+    if to not in messageReq:
+        messageReq[to] = -1
+    messageReq[to] += 1
+
+def sendMessageWithMention(to, lineMID):
+    try:
+        aa = '{"S":"0","E":"3","M":'+json.dumps(lineMID)+'}'
+        text_ = '@x '
+        line.sendMessage(to, text_, contentMetadata={'MENTION':'{"MENTIONEES":['+aa+']}'}, contentTyp$
+    except Exception as error:
+        logError(error)
+
+def cTime_to_datetime(unixtime):
+    return datetime.fromtimestamp(int(str(unixtime)[:len(str(unixtime))-3]))
+def dt_to_str(dt):
+    return dt.strftime('%H:%M:%S')
+
+def delete_log():
+    ndt = datetime.now()
+    for data in msg_dict:
+        if (datetime.utcnow() - cTime_to_datetime(msg_dict[data]["createdTime"])) > timedelta(1):
+            if "path" in msg_dict[data]:
+                line.deleteFile(msg_dict[data]["path"])
+            del msg_dict[data]
+
+def sendMention(to, text="", mids=[]):
+    arrData = ""
+    arr = []
+    mention = "@zeroxyuuki "
+    if mids == []:
+        raise Exception("Invalid mids")
+    if "@!" in text:
+        if text.count("@!") != len(mids):
+            raise Exception("Invalid mids")
+        texts = text.split("@!")
+        textx = ""
+        for mid in mids:
+            textx += str(texts[mids.index(mid)])
+            slen = len(textx)
+            elen = len(textx) + 15
+            arrData = {'S':str(slen), 'E':str(elen - 4), 'M':mid}
+            arr.append(arrData)
+            textx += mention
+        textx += str(texts[len(mids)])
+    else:
+        textx = ""
+        slen = len(textx)
+        elen = len(textx) + 15
+        arrData = {'S':str(slen), 'E':str(elen - 4), 'M':mids[0]}
+        arr.append(arrData)
+        textx += mention + str(text)
+    line.sendMessage(to, textx, {'MENTION': str('{"MENTIONEES":' + json.dumps(arr) + '}')}, 0)
+
+def mentionMembers(to, mid):
+    try:
+        arrData = ""
+        textx = "╔══[Mention {} User]\n╠ ".format(str(len(mid)))
+        arr = []
+        no = 1
+        for i in mid:
+            mention = "@x\n"
+            slen = str(len(textx))
+            elen = str(len(textx) + len(mention) - 1)
+            arrData = {'S':slen, 'E':elen, 'M':i}
+            arr.append(arrData)
+            textx += mention
+            if no < len(mid):
+                no += 1
+                textx += "╠ "
+            else:
+                try:
+                    textx += "╚══[ {} ]".format(str(line.getGroup(to).name))
+                except:
+                    pass
+        line.sendMessage(to, textx, {'MENTION': str('{"MENTIONEES":' + json.dumps(arr) + '}')}, 0)
+    except Exception as error:
+        logError(error)
+        line.sendMessage(to, "[ INFO ] Error :\n" + str(error))
+
+def myhelp():
+    myHelp = """╔══════════════┓
+╠     VҜ ŚẾL₣ВΌŦ
+╚══════════════┛
+╔══════════════┓
+╠❋►Me ↔คอนแทค
+╠❋►Help1 ↔คำสั่งทั่วไป
+╠❋►Help2 ↔คำสั่งกลุ่ม
+╠❋►Help3 ↔คำสั่งตั้งค่า
+╠❋►Help4 ↔ คำสั่งมีเดีย
+╠❋►Help5 ↔ คำสั่งสิริ
+╠❋►Help6 ↔ คำสั่งแปลภาษา
+╠❋►บอทออน
+╠❋►แทค
+╠❋►ทีมบอท
+╠❋►Creator
+╠❋►Sp
+╰═❋VҜ ŚẾL₣ВΌŦ »"""
+    return myHelp
+
+def listgrup():
+    listGrup = """╔══════════════┓
+╠     ❋คำสั่งกลุ่ม❋
+╚══════════════┛
+╔══════════════┓
+╠❋►ข้อมูลกลุ่ม
+╠❋►ชื่อกลุ่ม
+╠❋►ไอดีกลุ่ม
+╠❋►รูปกลุ่ม
+╠❋►สมาชิก
+╠❋►เปิดลิ้ง
+╠❋►ปิดลิ้ง
+╠❋►Gurl
+╠❋►ลิ้ง
+╠❋►แทค
+╠❋►แทคล่องหน
+╠❋►ไอดีล่องหน
+╠❋►คทล่องหน
+╠❋►เปิดแอบ
+╠❋►ปิดแอบ
+╠❋►มอง
+╠❋►ไครอ่าน
+╠❋►ยกเลิก
+╠❋►โทร
+╠❋►เชิญคลอ
+╠❋►ดึง
+╠❋►เปลี่ยนรูปกลุ่ม
+╠❋►ประกาศ
+╠❋►Vk @
+╠❋►หีแหก @
+╠❋►แบนหมด
+╠❋►แบน @
+╠❋►ยกเลิก @
+╠❋►ล้างแบน @
+╠❋►เตะแบน
+╠❋►เช็คไอดี
+╰═❋VҜ ŚẾL₣ВΌŦ »"""
+    return listGrup
+
+def socmedia():
+    socMedia = """╔══════════════┓
+╠    ❋คำสั่งมีเดี่ย❋
+╚══════════════┛
+╔══════════════┓
+╠❋►หารูป
+╠❋►รูปการ์ตูน
+╠❋►ยูทูป
+╠❋►เพลง
+╠❋►ค้นหา
+╠❋►หนัง
+╠❋►ภาพ
+╠❋►วีดีโอ
+╠❋►เทส
+╠❋►เพลงมา
+╠❋►สปีด
+╠❋►ไอจี
+╠❋►เวลา
+╠❋►ขอหื่น
+╰═❋VҜ ŚẾL₣ВΌŦ »"""
+    return socMedia
+
+def helpset():
+    helpSet = """╔══════════════┓
+╠    ❋คำสั่งSELF❋
+╚══════════════┛
+╔══════════════┓
+╠❋►Me
+╠❋►คท
+╠❋►Mid
+╠❋►รูป
+╠❋►ปก
+╠❋►วีดีโอ
+╠❋►ข้อมูล
+╠❋►กลุ่มทั้งหมด
+╠❋►ชื่อ
+╠❋►ตัส
+╠❋►คท @
+╠❋►รูป @
+╠❋►ปก @
+╠❋►ชื่อ @
+╠❋►ตัส @
+╠❋►ข้อมูล @
+╠❋►ไอดี
+╠❋►Sp ↔ Speed
+╠❋►เปลี่ยนดิส
+╠❋►ไวรัส
+╠❋►ปิดไฟ
+╠❋►Creator
+╠❋►ทีมบอท
+╠❋►ผส
+╠❋►บอทออน
+╠❋►ข้อความเข้า
+╠❋►ข้อความออก
+╠❋►ข้อความเตะ
+╠❋►ข้อความแอด
+╠❋►ข้อความแอด2
+╠❋►N
+╠❋►เพื่อน
+╠❋►เช็คบล็อค
+╠❋►ไอดีเพื่อน
+╠❋►ลบแชท
+╠❋►ปิดบอท
+╠❋►รัน @
+╠❋►รันแชท
+╠❋►รันแชท
+╠❋►แบน @ ↔ ปลด @
+╠❋►เลียนแบบ @
+╠❋►ยกเลิก @
+╠❋►Nutmic on ↔ off
+╠❋►เชคเลียนแบบ
+╠❋►เตะแบน
+╠❋►ชื่อ;
+╠❋►ตัส;
+╠❋►Spam on ↔ off
+╰═❋BY: VҜ ŚẾL₣ВΌŦ"""
+    return helpSet
+
+def helpsetting():
+    helpSetting = """╔══════════════┓
+╠ ❋«คำสั่งตั้งค่าบอท»❋
+╚══════════════┛
+╔══════════════┓
+╠❋►เช็ค
+╠❋►B on ↔ B off
+╠❋►เปิดเข้า ↔ ปิดเข้า
+╠❋►แชท on ↔แชท off
+╠❋►อ่าน on ↔อ่าน off
+╠❋►เปิดมุด ↔ ปิดมุด
+╠❋►ติ้ก on ↔ ติ้ก off
+╠❋►เปิดเสือก ↔ ปิดเสือก
+╠❋►เปิดแทค ↔ ปิดแทค
+╠❋►เปิดแทค2 ↔ ปิดแทค2
+╠❋►เปิดแทค3 ↔ ปิดแทค3
+╠❋►เตะแทค ↔ ปิดเตะแทค
+╠❋►เปิดคท ↔ ปิดคท
+╠❋►เปิดแชร์ ↔ ปิดแชร์
+╠❋►เปิดตรวจ ↔ ปิดตรวจ
+╠❋►เปิดพูด ↔ ปิดพูด
+╠❋►ตั้งแอด;
+╠❋►ตั้งแทค;
+╠❋►คอมเม้น;
+╠❋►ตั้งออก;
+╠❋►ตั้งเข้า;
+╠❋►เปิดกัน ↔ ปิดกัน
+╠❋►กันลิ้ง ↔ ปิดกันลิ้ง
+╠❋►กันยก ↔ ปิดกันยก
+╠❋►กันเชิญ ↔ ปิดกันเชิญ
+╠❋►กันกลุ่ม ↔ ปิดกันกลุ่ม
+╠❋►กันเข้า ↔ ปิดกันเข้า
+╠❋►เปิดหมด ↔ ปิดหมด
+╰══❋BY: VҜ ŚẾL₣ВΌŦ """
+    return helpSetting
+
+def helptexttospeech():
+    helpTextToSpeech =   """╔══════════════┓
+╠    ❋«สั่งสิริพูด»❋
+╚══════════════┛
+╔══════════════┓
+╠❋►พูด พิมคำที่ต้องการ
+╠❋► af : แอฟริกัน
+╠❋► sq : อัลเบเนีย
+╠❋► hy : อาเมเนีย
+╠❋► bn : เบนจาลี
+╠❋► zh-cn : จีน
+╠❋► zh-tw : ใต้หวัน
+╠❋► cs : เช็ก
+╠❋► nl : ดัช
+╠❋► en : อังกฤษ
+╠❋► en-us : สหรัฐ
+╠❋► el : กรีก
+╠❋► id : อินโดนีเซีย
+╠❋► it : อิตาลี
+╠❋► ja : ญี่ปุ่น
+╠❋► ko : เกาหลี
+╠❋► la : ลาติน
+╠❋► ro : โรมาเนีย
+╠❋► ru : รัสเซีย
+╠❋► sr : เซอเบียร์
+╠❋► th : ไทย
+╠❋► vi : เวียดนาม
+╰═❋BY: VҜ ŚẾL₣ВΌŦ »
+
+「วิธีใช้ : พูด พี่คะหนูเงี่ยน」"""
+    return helpTextToSpeech
+
+def helplanguange():
+    helpLanguange =    """╔══════════════┓
+╠ ❋«คำสั่งแปลภาษา»❋
+╚══════════════
+╔══════════════┓
+╠❋► af : แอฟริกัน
+╠❋► sq : อัลเบเนีย
+╠❋► ar : อราบิค
+╠❋► hy : อาเมเนีย
+╠❋► bn : บังการี่
+╠❋► bs : บอสเนีย
+╠❋► bg : บังแกเรีย
+╠❋► zh-cn : จีน
+╠❋► zh-tw : ใต้หวัน
+╠❋► cs : เช็ก
+╠❋► nl : ดัช
+╠❋► en : อังกฤษ
+╠❋► et : เอสโตเนียน
+╠❋► el : กรีก
+╠❋► id : อินโดนีเซีย
+╠❋► ga : ไอริส
+╠❋► it : อิตาลี
+╠❋► ja : ญี่ปุ่น
+╠❋► kn : แคนาดา
+╠❋► la : ลาติน
+╠❋► lv : ลัตเวีย
+╠❋► ms : มาเลเซีย
+╠❋► mt : มอลเตส
+╠❋► mn : มองโกเลีย
+╠❋► my : พม่า
+╠❋► fa : เปอร์เซีย
+╠❋► pt : โปรตุเกศ
+╠❋► ro : โรมาเนีย
+╠❋► ru : รัสเซีย
+╠❋► th : ไทย
+╠❋► zu : ซูลู
+╰═❋BY: VҜ ŚẾL₣ВΌŦ »
+
+「วิธีใช้ : Tr-th ตามด้วยคำที่จะแปล」"""
+    return helpLanguange
+#==============================================================================#
+def lineBot(op):
+    try:
+        if op.type == 0:
+            return
+        if op.type == 5:
+            if settings["autoAdd"] == True:
+                line.blockContact(op.param1)
+        if op.type == 13:
+            if lineMID in op.param3:
+                G = line.getGroup(op.param1)
+                if settings["autoJoin"] == True:
+                    if settings["autoCancel"]["on"] == True:
+                        if len(G.members) <= settings["autoCancel"]["members"]:
+                            line.rejectGroupInvitation(op.param1)
+                        else:
+                            line.acceptGroupInvitation(op.param1)
+                    else:
+                        line.acceptGroupInvitation(op.param1)
+                elif settings["autoCancel"]["on"] == True:
+                    if len(G.members) <= settings["autoCancel"]["members"]:
+                        line.rejectGroupInvitation(op.param1)
+            else:
+                Inviter = op.param3.replace("^^",',')
+                InviterX = Inviter.split(",")
+                matched_list = []
+                for tag in settings["blacklist"]:
+                    matched_list+=[str for str in InviterX if str == tag]
+                if matched_list == []:
+                    pass
+                else:
+                    line.cancelGroupInvitation(op.param1, matched_list)
+#        if op.type == 13:
+#            group = line.getGroup(op.param1)
+#            if settings["autoJoin"] == True:
+#                line.acceptGroupInvitation(op.param1)
+        if op.type == 24:
+            if settings["autoLeave"] == True:
+                line.leaveRoom(op.param1)
+
+        if op.type == 25:
+            msg = op.message
+            if msg.contentType == 13:
+                if settings["winvite"] == True:
+                     if msg._from in admin:
+                         _name = msg.contentMetadata["displayName"]
+                         invite = msg.contentMetadata["mid"]
+                         groups = line.getGroup(msg.to)
+                         pending = groups.invitee
+                         targets = []
+                         for s in groups.members:
+                             if _name in s.displayName:
+                                 line.sendText(msg.to,"-> " + _name + " \nทำการเชิญสำเร็จ")
+                                 break
+                             elif invite in settings["blacklist"]:
+                                 line.sendText(msg.to,"ขออภัย, " + _name + " บุคคนนี้อยู่ในรายการบัญชีดำ")
+                                 line.sendText(msg.to,"ใช้คำสั่ง!, \n➡ล้างดำ➡ดึง" )
+                                 break
+                             else:
+                                 targets.append(invite)
+                         if targets == []:
+                             pass
+                         else:
+                             for target in targets:
+                                 try:
