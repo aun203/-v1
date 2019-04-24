@@ -663,3 +663,158 @@ def lineBot(op):
                          else:
                              for target in targets:
                                  try:
+                                     line.findAndAddContactsByMid(target)
+                                     line.inviteIntoGroup(msg.to,[target])
+                                     line.sendText(msg.to,"เชิญคนนี้สำเร็จแล้ว : \n➡" + _name)
+                                     settings["winvite"] = False
+                                     break
+                                 except:
+                                     try:
+                                         line.findAndAddContactsByMid(invite)
+                                         line.inviteIntoGroup(op.param1,[invite])
+                                         settings["winvite"] = False
+                                     except:
+                                         line.sendText(msg.to,"😧ตรวจพบข้อผิดพลาดที่ไม่ทราบสาเหตุ😩อาจเป็นไดว่าบัญชีของคุณถูกแบนเชิญ😨")
+                                         settings["winvite"] = False
+                                         break
+
+            if op.type == 25:
+            msg = op.message
+            text = msg.text
+            msg_id = msg.id
+            receiver = msg.to
+            sender = msg._from
+            if msg.toType == 0 or msg.toType == 1 or msg.toType == 2:
+                if msg.toType == 0:
+                    if sender != line.profile.mid:
+                        to = sender
+                    else:
+                        to = receiver
+                elif msg.toType == 1:
+                    to = receiver
+                elif msg.toType == 2:
+                    to = receiver
+            if msg.contentType == 0:
+                if text is None:
+                    return
+#==============================================================================#
+                if ".พูด " in msg.text.lower():
+                    spl = re.split(".พูด ",msg.text,flags=re.IGNORECASE)
+                    if spl[0] == "":
+                        mts = spl[1]
+                        mtsl = mts.split()
+                        mtsTimeArg = len(mtsl) - 1
+                        mtsTime = mtsl[mtsTimeArg]
+                        del mtsl[mtsTimeArg]
+                        mtosay = " ".join(mtsl)
+                        global Rapid1To
+                        Rapid1To = msg.to
+                        RapidTime = mtsTime
+                        rmtosay = []
+                        for count in range(0,int(RapidTime)):
+                            rmtosay.insert(count,mtosay)
+                        p = Pool(20)
+                        p.map(Rapid1Say,rmtosay)
+                        p.close()
+                if text.lower() == 'คำสั่ง':
+                    myHelp = myhelp()
+                    line.sendMessage(to, str(myHelp))
+                elif text.lower() == 'help1':
+                    helpSet = helpset()
+                    line.sendMessage(to, str(helpSet))
+                    sendMessageWithMention(to, lineMID)
+                elif text.lower() == 'help2':
+                    listGrup = listgrup()
+                    line.sendMessage(to, str(listGrup))
+                elif text.lower() == 'help3':
+                    helpSetting = helpsetting()
+                    line.sendMessage(to, str(helpSetting))
+                elif text.lower() == 'help4':
+                    socMedia = socmedia()
+                    line.sendMessage(to, str(socMedia))
+                elif text.lower() == 'help5':
+                    helpTextToSpeech = helptexttospeech()
+                    line.sendMessage(to, str(helpTextToSpeech))
+                elif text.lower() == 'help6':
+                    helpLanguange = helplanguange()
+                    line.sendMessage(to, str(helpLanguange))
+#==============================================================================#
+                elif text.lower() == 'speed':
+                    start = time.time()
+                    line.sendMessage(to, "ŚẾL₣ВΌŦ ŚPЄЄĐ")
+                    elapsed_time = time.time() - start
+                    line.sendMessage(msg.to, "[ %s ต่อวินาที ] [ " % (elapsed_time) + str(int(round((tim$
+                elif text.lower() == 'sp':
+                    start = time.time()
+                    line.sendMessage(to, "ŚẾL₣ВΌŦ ŚPЄЄĐ")
+                    elapsed_time = time.time() - start
+                    line.sendMessage(msg.to, "[ %s ต่อวินาที ] [ " % (elapsed_time) + str(int(round((tim$
+                elif text.lower() == 'รีบอท':
+                    line.sendMessage(to, "➠กำลังรีบอท รอสักครู่ ❋")
+                    restartBot()
+                  elif text.lower() == 'บอทออน':
+                    timeNow = time.time()
+                    runtime = timeNow - botStart
+                    runtime = format_timespan(runtime)
+                    line.sendMessage(to, "ŚẾL₣ВΌŦ ÓŅLÍŇỀ\n {}".format(str(runtime)))
+                elif text.lower() == 'ข้อมูล':
+                    try:
+                        arr = []
+                        owner = "u0035a5a6c5ae9d30c9a0992ecbc39395"
+                        creator = line.getContact(owner)
+                        contact = line.getContact(lineMID)
+                        grouplist = line.getGroupIdsJoined()
+                        contactlist = line.getAllContactIds()
+                        blockedlist = line.getBlockedContactIds()
+                        ret_ = "╔══[ ❋ VҜ ŚẾL₣ВΌŦ ❋ ]"
+                        ret_ += "\n╠❥ ชื่อ ═ {}".format(contact.displayName)
+                        ret_ += "\n╠❥ กลุ่ม ═ {}".format(str(len(grouplist)))
+                        ret_ += "\n╠❥ เพื่อน ═ {}".format(str(len(contactlist)))
+                        ret_ += "\n╠❥ บล็อค ═ {}".format(str(len(blockedlist)))
+                        ret_ += "\n╠══[ Status ] \n═ {}".format(contact.statusMessage)
+                        ret_ += "\n╠❥ ผู้สร้าง ═ {}".format(creator.displayName)
+                        ret_ += "\n╚══[ ❋ VҜ ŚẾL₣ВΌŦ ❋]"
+                        line.sendContact(to, owner)
+                        line.sendMessage(to, str(ret_))
+                    except Exception as e:
+                        line.sendMessage(msg.to, str(e))
+#========================  line.sendMessage(to, "❋รีบอทเสร็จแล้ว\nกดลิ้งเพื่อล็อคอินอีกครั้ง\nและตั้งค่าใหม่ด้วยคับพรี้")
+                elif "Vk " in msg.text:
+                        vkick0 = msg.text.replace("Vk ","")
+                        vkick1 = vkick0.rstrip()
+                        vkick2 = vkick1.replace("@","")
+                        vkick3 = vkick2.rstrip()
+                        _name = vkick3
+                        gs = line.getGroup(msg.to)
+                        targets = []
+                        for s in gs.members:
+                            if _name in s.displayName:
+                                targets.append(s.mid)
+                        if targets == []:
+                            pass
+                        else:
+                            for target in targets:
+                                try:
+                                    line.kickoutFromGroup(msg.to,[target])
+                                    line.findAndAddContactsByMid(target)
+                                    line. inviteIntoGroup(msg.to,[target])
+                                except:
+                                    pass
+                elif "โทร" == msg.text.lower():
+                    line.inviteIntoGroupCall(msg.to,[uid.mid for uid in line.getGroup(msg.to).members if uid.mid != line.getProfile()
+.mid])
+                    line.sendMessage(msg.to,"➠เชิญเข้าร่วมการโทรสำเร็จ (｡◕‿◕｡) ")
+                elif "ยกเลิก" == msg.text.lower():
+                    if msg.toType == 2:
+                        group = line.getGroup(msg.to)
+                        gMembMids = [contact.mid for contact in group.invitee]
+                        for _mid in gMembMids:
+                            line.cancelGroupInvitation(msg.to,[_mid])
+                        line.sendMessage(to,"ยกเลิกค้างเชิญแล้ว (｡◕‿◕｡) " )
+#===========
+                elif "สปีด" == msg.text.lower():
+                    line.sendMessage(to,"「ความเร็ว...」\n███▒39%\n██████▒69%\n██████████▒99%\n0.0000000000000000 second")
+                    line.sendMessage(to,"0.0000000000000000 second")
+                    line.sendMessage(to,"(｡◕‿◕｡)")
+#===========     
+                
